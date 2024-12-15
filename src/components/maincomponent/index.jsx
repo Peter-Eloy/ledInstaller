@@ -7,6 +7,7 @@ import Notes from './notes'
 import InfoBox from './infobox'
 
 const MainComponent = ({ currentConfig }) => {
+    console.log('MainComponent received currentConfig:', currentConfig)
     // It's now safe to access currentConfig properties
     const selectedScreenObj = screenMFRData.find((s) => s['Screen MFR'] === currentConfig.selectedScreen)
 

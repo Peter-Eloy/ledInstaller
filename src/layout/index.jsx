@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // MUI Components
 import { AppBar, Box, CssBaseline, Drawer, Toolbar, Typography, Button } from '@mui/material'
 
@@ -25,6 +25,11 @@ const Layout = () => {
     const handleConfigChange = (newConfig) => {
         setCurrentConfig(newConfig)
     }
+
+    useEffect(() => {
+        // This will run whenever currentConfig changes
+        console.log('currentConfig state in Layout:', currentConfig)
+    }, [currentConfig])
 
     const drawer = (
         <Box display='flex' flexDirection='column' height='100%' p={1}>

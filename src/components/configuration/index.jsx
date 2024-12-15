@@ -6,6 +6,7 @@ import receptableBoxData from '../../data/receptableBox.json'
 
 const Configuration = ({ currentConfig, onConfigChange }) => {
     const handleChange = (key, value) => {
+        console.log(`Configuration change: ${key} = ${value}`)
         onConfigChange({ ...currentConfig, [key]: value })
     }
 
