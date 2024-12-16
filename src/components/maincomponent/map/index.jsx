@@ -1,9 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Stage, Layer, Rect, Text, Line, Group } from 'react-konva'
 
+// ==============================|| SCALE FOR MAP COMPONENT ||============================== //
+
 const parseVal = (val) => parseFloat((val ?? '0').toString().replace(',', '.')) || 0
 
-// A simple measurement line: connects two points and places a horizontal label near it.
 const SimpleMeasurement = ({ startX, startY, endX, endY, label }) => {
     const isVertical = startX === endX
     const fontSize = 12
@@ -39,6 +40,8 @@ const SimpleMeasurement = ({ startX, startY, endX, endY, label }) => {
         </Group>
     )
 }
+
+// ==============================|| MAP COMPONENT ||============================== //
 
 const Map = ({ currentConfig, selectedScreenObj }) => {
     const containerRef = useRef(null)
@@ -99,12 +102,11 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
     const nicheWidth = scaledScreenWidth + nicheMargin * 2
     const nicheHeight = scaledScreenHeight + nicheMargin * 2
 
-    // Hardcode the receptacle dimensions:
     const receptacleWidthInches = 6.25
     const receptacleHeightInches = 6.94
     const receptacleWidth = receptacleWidthInches * pxPerInch
     const receptacleHeight = receptacleHeightInches * pxPerInch
-    // Place receptacle inside screen:
+
     const receptacleStartX = screenCenterX - receptacleWidth / 2
     const receptacleStartY = screenCenterY - receptacleHeight / 2
 
@@ -123,13 +125,11 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
     const nicheWidthLineY = nicheY - 30
     const screenWidthLineY = screenY + scaledScreenHeight + 60
 
-    // Drag move handler for the receptacle: keep inside screen
     const handleReceptacleDrag = (e) => {
         const shape = e.target
         let newX = shape.x()
         let newY = shape.y()
 
-        // Bound inside the screen rectangle:
         if (newX < screenX) newX = screenX
         if (newX + receptacleWidth > screenX + scaledScreenWidth) newX = screenX + scaledScreenWidth - receptacleWidth
         if (newY < screenY) newY = screenY
@@ -143,9 +143,7 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
         <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
             {stageSize.width > 0 && stageSize.height > 0 && (
                 <Stage width={stageSize.width} height={stageSize.height}>
-                    {/* First layer: receptacle (behind) */}
                     <Layer>
-                        {/* Draggable receptacle with fill so it can be easily grabbed */}
                         <Rect
                             x={receptacleStartX}
                             y={receptacleStartY}
@@ -160,7 +158,6 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
                         />
                     </Layer>
 
-                    {/* Second layer: everything else, listening disabled so rect behind can be dragged */}
                     <Layer listening={false}>
                         {floorDistVal > 0 && (
                             <>
@@ -210,10 +207,8 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
                             label={screenWidthLabel}
                         />
 
-                        {/* Draw the niche */}
                         <Rect x={nicheX} y={nicheY} width={nicheWidth} height={nicheHeight} stroke='#000' strokeWidth={1} fillEnabled={false} />
 
-                        {/* Draw the screen */}
                         <Rect x={screenX} y={screenY} width={scaledScreenWidth} height={scaledScreenHeight} stroke='#000' strokeWidth={3} fillEnabled={false} />
                     </Layer>
                 </Stage>

@@ -1,6 +1,8 @@
 import { Paper, Typography, Box } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 
+// ==============================|| NOTES COMPONENT ||============================== //
+
 const DimensionRow = ({ label, value }) => (
     <Box sx={{ display: 'flex', mb: 1 }}>
         <Box sx={{ bgcolor: '#A9A9A9', px: 4, py: 1, width: '40%' }}>

@@ -1,6 +1,7 @@
 import { Paper, Typography, Box } from '@mui/material'
 
-// A helper function to parse string dimensions into float safely
+// ==============================|| NICHE COMPONENT ||============================== //
+
 const parseDimension = (dim) => {
     if (typeof dim === 'number') return dim
     if (typeof dim === 'string') {
@@ -25,12 +26,10 @@ const DimensionRow = ({ label, value }) => (
 const NicheDimensions = ({ currentConfig, selectedScreenObj, orientation }) => {
     const { installation, nicheDepthVar } = currentConfig
 
-    // If not niche, return nothing
     if (installation !== 'niche') {
         return null
     }
 
-    // If no screen is selected yet, show a message
     if (!selectedScreenObj) {
         return (
             <Paper sx={{ p: 2, width: 300 }}>
@@ -42,25 +41,19 @@ const NicheDimensions = ({ currentConfig, selectedScreenObj, orientation }) => {
         )
     }
 
-    // Parse selected screen dimensions
     let screenHeight = parseDimension(selectedScreenObj.Height)
     let screenWidth = parseDimension(selectedScreenObj.Width)
     let screenDepth = parseDimension(selectedScreenObj.Depth)
     const screenSize = selectedScreenObj['Screen Size'] || 0
 
-    // Apply orientation swap if needed
     if (orientation === 'horizontal') {
         ;[screenHeight, screenWidth] = [screenWidth, screenHeight]
     }
 
-    // Determine margin
     const margin = screenSize < 55 ? 1.5 : 2
 
-    // Parse nicheDepthVar as float
     const depthAdjustment = parseFloat(nicheDepthVar) || 0
-    console.log('depthAdjustment:', depthAdjustment)
 
-    // Compute niche dimensions
     const nicheHeight = screenHeight + margin * 2 - depthAdjustment
     const nicheWidth = screenWidth + margin * 2 - depthAdjustment
     const nicheDepthDimension = screenDepth + margin * 2 - depthAdjustment

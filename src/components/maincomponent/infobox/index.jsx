@@ -1,6 +1,8 @@
 import { Paper, Box, Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 
+// ==============================|| INFOBOX ||============================== //
+
 const InfoBox = () => (
     <Paper sx={{ p: 2, mt: 2, mr: 3 }}>
         <Grid container spacing={10} sx={{ width: '100%' }}>

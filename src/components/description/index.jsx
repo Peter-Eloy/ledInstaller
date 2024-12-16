@@ -2,17 +2,14 @@ import { useState } from 'react'
 import { Box, TextField, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 
+// ==============================|| DESCRIPTION ||============================== //
+
 const Description = () => {
     const [title, setTitle] = useState('')
     const [drawer, setDrawer] = useState('')
     const [department, setDepartment] = useState('')
     const [screenSize, setScreenSize] = useState('')
     const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'))
-
-    const handleSubmit = () => {
-        const descriptionData = { title, drawer, department, screenSize, date }
-        console.log('Description Data:', descriptionData)
-    }
 
     return (
         <Box

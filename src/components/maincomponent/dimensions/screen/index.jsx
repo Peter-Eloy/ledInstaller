@@ -1,5 +1,6 @@
 import { Paper, Typography, Box } from '@mui/material'
-import Grid from '@mui/material/Grid2'
+
+// ==============================|| SCREEN DIMENSION COMPONENT ||============================== //
 
 const DimensionRow = ({ label, value }) => (
     <Box sx={{ display: 'flex', mb: 1 }}>
@@ -16,7 +17,6 @@ const ScreenDimensions = ({ height, width, orientation, floorDistance }) => {
     let finalHeight = height
     let finalWidth = width
 
-    // If orientation is horizontal, swap
     if (orientation === 'horizontal') {
         ;[finalHeight, finalWidth] = [finalWidth, finalHeight]
     }

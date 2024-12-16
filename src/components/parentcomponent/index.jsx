@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Configuration from '../configuration'
 import MainComponent from '../maincomponent'
 
+// ==============================|| PARENT COMPONENT ||============================== //
+
 const ParentComponent = () => {
     const [currentConfig, setCurrentConfig] = useState({
         selectedScreen: '',
@@ -20,10 +22,8 @@ const ParentComponent = () => {
 
     return (
         <div style={{ display: 'flex' }}>
-            {/* Left side: Configuration component */}
             <Configuration currentConfig={currentConfig} onConfigChange={handleConfigChange} />
 
-            {/* Right side: MainComponent which receives the updated config */}
             <MainComponent currentConfig={currentConfig} />
         </div>
     )

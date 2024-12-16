@@ -1,15 +1,17 @@
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+
 import screenMFRData from '../../data/screenMFR.json'
+
 import NicheDimensions from './dimensions/niche'
 import ScreenDimensions from './dimensions/screen'
 import Notes from './notes'
 import InfoBox from './infobox'
 import Map from './map'
 
+// ==============================|| MAIN COMPONENT ||============================== //
+
 const MainComponent = ({ currentConfig }) => {
-    console.log('MainComponent received currentConfig:', currentConfig)
-    // It's now safe to access currentConfig properties
     const selectedScreenObj = screenMFRData.find((s) => s['Screen MFR'] === currentConfig.selectedScreen)
 
     let screenHeight = ''

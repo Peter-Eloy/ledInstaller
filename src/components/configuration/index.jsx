@@ -1,12 +1,14 @@
 import { Box, FormControl, InputLabel, Select, MenuItem, TextField, ToggleButtonGroup, ToggleButton, Typography } from '@mui/material'
+
 import screenMFRData from '../../data/screenMFR.json'
 import mountsData from '../../data/mounts.json'
 import mediaplayerMFRData from '../../data/mediaplayerMFR.json'
 import receptableBoxData from '../../data/receptableBox.json'
 
+// ==============================|| CONFIGURATION ||============================== //
+
 const Configuration = ({ currentConfig, onConfigChange }) => {
     const handleChange = (key, value) => {
-        console.log(`Configuration change: ${key} = ${value}`)
         onConfigChange({ ...currentConfig, [key]: value })
     }
 
@@ -32,7 +34,6 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            {/* Media Player */}
             <FormControl fullWidth sx={{ mb: 2 }} size='small'>
                 <InputLabel>Media Player</InputLabel>
                 <Select value={currentConfig.selectedMediaPlayer} onChange={(e) => handleChange('selectedMediaPlayer', e.target.value)}>
@@ -44,7 +45,6 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            {/* Mount */}
             <FormControl fullWidth sx={{ mb: 2 }} size='small'>
                 <InputLabel>Mount</InputLabel>
                 <Select value={currentConfig.selectedMount} onChange={(e) => handleChange('selectedMount', e.target.value)}>
@@ -56,7 +56,6 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            {/* Receptacle Box */}
             <FormControl fullWidth sx={{ mb: 2 }} size='small'>
                 <InputLabel>Receptacle Box</InputLabel>
                 <Select value={currentConfig.selectedBox} onChange={(e) => handleChange('selectedBox', e.target.value)}>
