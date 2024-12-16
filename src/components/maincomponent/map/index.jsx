@@ -71,7 +71,8 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
     const { orientation, floorDistance } = currentConfig
     let screenHeight = parseVal(selectedScreenObj.Height)
     let screenWidth = parseVal(selectedScreenObj.Width)
-    if (orientation === 'horizontal') [screenHeight, screenWidth] = [screenWidth, screenHeight]
+
+    if (orientation === 'vertical') [screenHeight, screenWidth] = [screenWidth, screenHeight]
 
     const marginSpace = 100
     const availableWidth = stageSize.width - marginSpace * 2
