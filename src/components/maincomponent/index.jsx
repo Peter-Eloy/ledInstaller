@@ -5,6 +5,7 @@ import NicheDimensions from './dimensions/niche'
 import ScreenDimensions from './dimensions/screen'
 import Notes from './notes'
 import InfoBox from './infobox'
+import Map from './map'
 
 const MainComponent = ({ currentConfig }) => {
     console.log('MainComponent received currentConfig:', currentConfig)
@@ -36,7 +37,7 @@ const MainComponent = ({ currentConfig }) => {
         >
             <Grid container spacing={2}>
                 <Grid item xs={7}>
-                    TEST
+                    <Map currentConfig={currentConfig} selectedScreenObj={selectedScreenObj} />
                 </Grid>
                 <Grid item xs={5}>
                     <Grid container spacing={2}>
