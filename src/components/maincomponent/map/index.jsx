@@ -1,7 +1,44 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Stage, Layer, Rect, Text, Line } from 'react-konva'
+import { Stage, Layer, Rect, Text, Line, Group } from 'react-konva'
 
 const parseVal = (val) => parseFloat((val ?? '0').toString().replace(',', '.')) || 0
+
+// A simple measurement line: connects two points and places a horizontal label near it.
+const SimpleMeasurement = ({ startX, startY, endX, endY, label }) => {
+    const isVertical = startX === endX
+    const fontSize = 12
+    const labelOffset = 10
+    const color = '#007AFF'
+
+    const midX = (startX + endX) / 2
+    const midY = (startY + endY) / 2
+
+    let textX, textY
+    if (isVertical) {
+        textX = startX - labelOffset
+        textY = midY - fontSize / 2
+    } else {
+        textX = midX
+        textY = startY - labelOffset - fontSize
+    }
+
+    return (
+        <Group listening={false}>
+            <Line points={[startX, startY, endX, endY]} stroke={color} strokeWidth={1} />
+            <Text
+                x={textX}
+                y={textY}
+                text={label}
+                fontSize={fontSize}
+                fill={color}
+                align='center'
+                verticalAlign='middle'
+                offsetX={!isVertical ? label.length * fontSize * 0.2 : 0}
+                listening={false}
+            />
+        </Group>
+    )
+}
 
 const Map = ({ currentConfig, selectedScreenObj }) => {
     const containerRef = useRef(null)
@@ -14,7 +51,6 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
         }
     }, [containerRef])
 
-    // If no screen selected, just show a message
     if (!selectedScreenObj) {
         return (
             <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
@@ -32,23 +68,29 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
     const { orientation, floorDistance } = currentConfig
     let screenHeight = parseVal(selectedScreenObj.Height)
     let screenWidth = parseVal(selectedScreenObj.Width)
+    if (orientation === 'horizontal') [screenHeight, screenWidth] = [screenWidth, screenHeight]
 
-    if (orientation === 'horizontal') {
-        ;[screenHeight, screenWidth] = [screenWidth, screenHeight]
-    }
+    const marginSpace = 100
+    const availableWidth = stageSize.width - marginSpace * 2
+    const availableHeight = stageSize.height - marginSpace * 2
+    const maxScreenDimension = Math.max(screenWidth, screenHeight)
+    const floorDistVal = parseVal(floorDistance)
+    const totalRequiredHeight = screenHeight + floorDistVal + 20
 
-    const maxDimension = Math.max(screenWidth, screenHeight)
-    // Use 60% of the container width for scaling:
-    const pxPerInch = stageSize.width > 0 ? (stageSize.width * 0.6) / maxDimension : 1
+    const widthScale = availableWidth / (maxScreenDimension + 40)
+    const heightScale = availableHeight / totalRequiredHeight
+    const pxPerInch = Math.min(widthScale, heightScale, availableWidth / 200)
 
     const scaledScreenWidth = screenWidth * pxPerInch
     const scaledScreenHeight = screenHeight * pxPerInch
 
     const centerX = stageSize.width / 2
-    const centerY = stageSize.height / 2
+    const centerY = (stageSize.height - scaledScreenHeight) / 3
 
     const screenX = centerX - scaledScreenWidth / 2
-    const screenY = centerY - scaledScreenHeight / 2
+    const screenY = centerY
+    const screenCenterX = screenX + scaledScreenWidth / 2
+    const screenCenterY = screenY + scaledScreenHeight / 2
 
     const nicheMarginInches = 10
     const nicheMargin = nicheMarginInches * pxPerInch
@@ -57,51 +99,122 @@ const Map = ({ currentConfig, selectedScreenObj }) => {
     const nicheWidth = scaledScreenWidth + nicheMargin * 2
     const nicheHeight = scaledScreenHeight + nicheMargin * 2
 
-    const receptacleWidthInches = 20
-    const receptacleHeightInches = 10
+    // Hardcode the receptacle dimensions:
+    const receptacleWidthInches = 6.25
+    const receptacleHeightInches = 6.94
     const receptacleWidth = receptacleWidthInches * pxPerInch
     const receptacleHeight = receptacleHeightInches * pxPerInch
-    const receptacleX = centerX - receptacleWidth / 2
-    const receptacleY = centerY + scaledScreenHeight / 2 + 30 * pxPerInch
+    // Place receptacle inside screen:
+    const receptacleStartX = screenCenterX - receptacleWidth / 2
+    const receptacleStartY = screenCenterY - receptacleHeight / 2
 
-    const floorDistVal = parseVal(floorDistance)
     const scaledFloorDist = floorDistVal * pxPerInch
-    const floorLineY = centerY + scaledFloorDist
+    const floorLineY = screenCenterY + scaledFloorDist
+
+    const nicheWidthLabel = `${(nicheWidth / pxPerInch).toFixed(1)}"`
+    const nicheHeightLabel = `${(nicheHeight / pxPerInch).toFixed(1)}"`
+    const screenWidthLabel = `${screenWidth.toFixed(1)}"`
+    const screenHeightLabel = `${screenHeight.toFixed(1)}"`
+    const floorDistLabel = floorDistVal > 0 ? `${floorDistance}"` : ''
+
+    const floorLineX = screenX - 90
+    const nicheHeightLineX = nicheX - 30
+    const screenHeightLineX = nicheX + nicheWidth + 30
+    const nicheWidthLineY = nicheY - 30
+    const screenWidthLineY = screenY + scaledScreenHeight + 60
+
+    // Drag move handler for the receptacle: keep inside screen
+    const handleReceptacleDrag = (e) => {
+        const shape = e.target
+        let newX = shape.x()
+        let newY = shape.y()
+
+        // Bound inside the screen rectangle:
+        if (newX < screenX) newX = screenX
+        if (newX + receptacleWidth > screenX + scaledScreenWidth) newX = screenX + scaledScreenWidth - receptacleWidth
+        if (newY < screenY) newY = screenY
+        if (newY + receptacleHeight > screenY + scaledScreenHeight) newY = screenY + scaledScreenHeight - receptacleHeight
+
+        shape.x(newX)
+        shape.y(newY)
+    }
 
     return (
         <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'relative' }}>
             {stageSize.width > 0 && stageSize.height > 0 && (
                 <Stage width={stageSize.width} height={stageSize.height}>
+                    {/* First layer: receptacle (behind) */}
                     <Layer>
-                        <Line points={[centerX, 0, centerX, stageSize.height]} stroke='gray' dash={[4, 4]} />
-                        <Line points={[0, centerY, stageSize.width, centerY]} stroke='gray' dash={[4, 4]} />
-
-                        <Line points={[0, floorLineY, stageSize.width, floorLineY]} stroke='black' strokeWidth={1} />
-                        <Text x={centerX + 10} y={floorLineY - 20} text={`Floor Distance: ${floorDistance || 'N/A'}`} fontSize={14} fill='#000' />
-
-                        <Rect x={nicheX} y={nicheY} width={nicheWidth} height={nicheHeight} stroke='#000' strokeWidth={4} fillEnabled={false} />
-
-                        <Rect x={screenX} y={screenY} width={scaledScreenWidth} height={scaledScreenHeight} stroke='#000' strokeWidth={2} fill='#ddd' />
-
+                        {/* Draggable receptacle with fill so it can be easily grabbed */}
                         <Rect
-                            x={receptacleX}
-                            y={receptacleY}
+                            x={receptacleStartX}
+                            y={receptacleStartY}
                             width={receptacleWidth}
                             height={receptacleHeight}
+                            fill='rgba(200,200,200,0.5)'
                             stroke='black'
                             dash={[4, 4]}
                             strokeWidth={1}
-                            fillEnabled={false}
+                            draggable={true}
+                            onDragMove={handleReceptacleDrag}
+                        />
+                    </Layer>
+
+                    {/* Second layer: everything else, listening disabled so rect behind can be dragged */}
+                    <Layer listening={false}>
+                        {floorDistVal > 0 && (
+                            <>
+                                <Rect
+                                    x={marginSpace}
+                                    y={floorLineY}
+                                    width={stageSize.width - marginSpace * 2}
+                                    height={4}
+                                    fill='#333'
+                                    shadowBlur={3}
+                                    shadowOpacity={0.3}
+                                />
+                                <Line points={[marginSpace, floorLineY, stageSize.width - marginSpace, floorLineY]} stroke='black' strokeWidth={3} />
+                            </>
+                        )}
+
+                        <Line points={[screenCenterX, nicheY - 50, screenCenterX, nicheY + nicheHeight + 50]} stroke='gray' dash={[4, 4]} />
+                        <Line points={[nicheX - 50, screenCenterY, nicheX + nicheWidth + 50, screenCenterY]} stroke='gray' dash={[4, 4]} />
+
+                        {floorDistVal > 0 && (
+                            <SimpleMeasurement startX={floorLineX} startY={screenCenterY} endX={floorLineX} endY={floorLineY} label={floorDistLabel} />
+                        )}
+
+                        <SimpleMeasurement
+                            startX={nicheHeightLineX}
+                            startY={nicheY}
+                            endX={nicheHeightLineX}
+                            endY={nicheY + nicheHeight}
+                            label={nicheHeightLabel}
                         />
 
-                        <Text x={screenX} y={screenY - 20} text={`Screen: ${selectedScreenObj['Screen MFR']}`} fontSize={14} fill='#000' />
-                        <Text
-                            x={screenX}
-                            y={screenY + scaledScreenHeight + 5}
-                            text={`H: ${screenHeight.toFixed(2)}"  W: ${screenWidth.toFixed(2)}"`}
-                            fontSize={14}
-                            fill='#000'
+                        <SimpleMeasurement
+                            startX={screenHeightLineX}
+                            startY={screenY}
+                            endX={screenHeightLineX}
+                            endY={screenY + scaledScreenHeight}
+                            label={screenHeightLabel}
                         />
+
+                        <SimpleMeasurement startX={nicheX} startY={nicheWidthLineY} endX={nicheX + nicheWidth} endY={nicheWidthLineY} label={nicheWidthLabel} />
+
+                        <SimpleMeasurement
+                            startX={screenX}
+                            startY={screenWidthLineY}
+                            endX={screenX + scaledScreenWidth}
+                            endY={screenWidthLineY}
+                            label={screenWidthLabel}
+                        />
+
+                        {/* Draw the niche */}
+                        <Rect x={nicheX} y={nicheY} width={nicheWidth} height={nicheHeight} stroke='#000' strokeWidth={1} fillEnabled={false} />
+
+                        {/* Draw the screen */}
+                        <Rect x={screenX} y={screenY} width={scaledScreenWidth} height={scaledScreenHeight} stroke='#000' strokeWidth={3} fillEnabled={false} />
                     </Layer>
                 </Stage>
             )}
