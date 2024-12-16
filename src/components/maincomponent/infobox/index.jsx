@@ -1,94 +1,198 @@
-import { Paper, Box, Typography } from '@mui/material'
-import Grid from '@mui/material/Grid2'
+import React from 'react'
+import { Paper, Typography, Box } from '@mui/material'
+import { DataGrid, gridClasses } from '@mui/x-data-grid'
 
-// ==============================|| INFOBOX ||============================== //
+const InfoBox = () => {
+    const columns = [
+        {
+            field: 'col1',
+            headerName: '',
+            width: 150,
+            renderCell: (params) => {
+                const isHeader = params.row.isHeader
+                return (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            height: '100%',
+                            bgcolor: isHeader ? '#FFF3E0' : 'white',
+                            p: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant='subtitle2'>{params.value}</Typography>
+                    </Box>
+                )
+            },
+        },
+        {
+            field: 'col2',
+            headerName: '',
+            width: 150,
+            renderCell: (params) => {
+                const isHeader = params.row.isHeader
+                return (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            height: '100%',
+                            bgcolor: isHeader ? '#FFF3E0' : 'white',
+                            p: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant='subtitle2'>{params.value}</Typography>
+                    </Box>
+                )
+            },
+        },
+        {
+            field: 'col3',
+            headerName: '',
+            width: 150,
+            renderCell: (params) => {
+                const isHeader = params.row.isHeader
+                return (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            height: '100%',
+                            bgcolor: isHeader ? '#FFF3E0' : 'white',
+                            p: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant='subtitle2'>{params.value}</Typography>
+                    </Box>
+                )
+            },
+        },
+        {
+            field: 'col4',
+            headerName: '',
+            width: 150,
+            renderCell: (params) => {
+                const isHeader = params.row.isHeader
+                return (
+                    <Box
+                        sx={{
+                            width: '100%',
+                            height: '100%',
+                            bgcolor: isHeader ? '#FFF3E0' : 'white',
+                            p: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Typography variant='subtitle2'>{params.value}</Typography>
+                    </Box>
+                )
+            },
+        },
+    ]
 
-const InfoBox = () => (
-    <Paper sx={{ p: 2, mt: 2, mr: 3 }}>
-        <Grid container spacing={10} sx={{ width: '100%' }}>
-            <Grid item>
-                <Typography>Peter - Eloy</Typography>
-            </Grid>
-            <Grid item>
-                <Typography>@petereloy</Typography>
-                <Typography>follow me on x.com</Typography>
-            </Grid>
-            <Grid item>
-                <Typography>Description</Typography>
-                <Typography>Some screen data HERE</Typography>
-            </Grid>
-        </Grid>
+    // Create rows with the merged cells structure
+    const rows = [
+        // Row 1 - Headers
+        {
+            id: 1,
+            isHeader: true,
+            col1: 'Drawn',
+            col2: 'Dimensions\nin Inches',
+            col3: 'Some\nlogo',
+            col4: 'Screen Size',
+        },
+        // Row 2 - Values and merged cells continue
+        {
+            id: 2,
+            isHeader: false,
+            col1: 'someone',
+            col2: '', // Part of merged cell
+            col3: '', // Part of merged cell
+            col4: 'LG55"',
+        },
+        // Row 3 - Headers
+        {
+            id: 3,
+            isHeader: true,
+            col1: 'Date',
+            col2: 'Sheet',
+            col3: 'Revision',
+            col4: 'Department',
+        },
+        // Row 4 - Values
+        {
+            id: 4,
+            isHeader: false,
+            col1: '09/12/2023',
+            col2: '1 of 1',
+            col3: '00',
+            col4: 'Installations',
+        },
+    ]
 
-        <Grid container sx={{ width: '100%', mt: 2 }}>
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Drawn</Typography>
+    return (
+        <Paper sx={{ p: 2, width: '100%' }}>
+            {/* Header Section */}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    mb: 3,
+                    px: 2,
+                }}
+            >
+                <Box>
+                    <Typography variant='h6'>Peter - Eloy</Typography>
                 </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>someone</Typography>
+                <Box sx={{ textAlign: 'center' }}>
+                    <Typography>@petereloy</Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                        follow me on x.com
+                    </Typography>
                 </Box>
-            </Grid>
+                <Box>
+                    <Typography>Description</Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                        Some screen data HERE
+                    </Typography>
+                </Box>
+            </Box>
 
-            <Grid size={3}>
-                <Box sx={{ p: 3.1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Dimensions</Typography>
-                    <Typography variant='subtitle2'>in Inches</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 3.1, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>Some</Typography>
-                    <Typography variant='subtitle2'>logo</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Screen Size</Typography>
-                </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>LG55"</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Date</Typography>
-                </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>09/12/2023</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Sheet</Typography>
-                </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>1 of 1</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Revision</Typography>
-                </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>00</Typography>
-                </Box>
-            </Grid>
-
-            <Grid size={3}>
-                <Box sx={{ p: 1, bgcolor: '#FFF3E0', border: '1px solid #FFE0B2' }}>
-                    <Typography variant='subtitle2'>Department</Typography>
-                </Box>
-                <Box sx={{ p: 2, border: '1px solid grey' }}>
-                    <Typography variant='subtitle2'>Installations</Typography>
-                </Box>
-            </Grid>
-        </Grid>
-    </Paper>
-)
+            {/* DataGrid */}
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                hideFooter={true}
+                disableColumnMenu
+                disableColumnFilter
+                disableColumnSelector
+                disableRowSelectionOnClick
+                rowHeight={65}
+                sx={{
+                    '& .MuiDataGrid-cell': {
+                        border: '1px solid #e0e0e0',
+                        p: 0,
+                    },
+                    '& .MuiDataGrid-columnHeaders': {
+                        display: 'none',
+                    },
+                    '& .MuiDataGrid-virtualScroller': {
+                        marginTop: '0!important',
+                    },
+                    border: '1px solid #e0e0e0',
+                    [`& .${gridClasses.row}.merged-cell`]: {
+                        bgcolor: 'transparent',
+                    },
+                }}
+                getRowClassName={(params) => (params.row.isMerged ? 'merged-cell' : '')}
+                autoHeight
+            />
+        </Paper>
+    )
+}
 
 export default InfoBox
