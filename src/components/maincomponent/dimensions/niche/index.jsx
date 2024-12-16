@@ -59,7 +59,7 @@ const NicheDimensions = ({ currentConfig, selectedScreenObj, orientation }) => {
     const nicheDepthDimension = screenDepth + margin * 2 - depthAdjustment
 
     return (
-        <Paper sx={{ p: 2, width: 300 }}>
+        <Paper sx={{ p: 2, width: '100%' }}>
             <Typography variant='subtitle1' fontWeight='bold' mb={2}>
                 Niche Dimensions:
             </Typography>

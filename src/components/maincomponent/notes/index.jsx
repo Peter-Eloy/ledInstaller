@@ -15,7 +15,7 @@ const DimensionRow = ({ label, value }) => (
 )
 
 const Notes = () => (
-    <Paper sx={{ p: 1, marginRight: 3.3 }}>
+    <Paper sx={{ p: 2, width: '100%' }}>
         <Grid container spacing={4}>
             <Grid xs={5}>
                 <Typography variant='subtitle1' fontWeight='bold' mb={1}>
