@@ -17,18 +17,21 @@ const Description = () => {
                 p: 1,
                 border: '1px solid #ccc',
                 borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
                 width: '100%',
-                marginBottom: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 1,
             }}
         >
-            <Typography variant='h6'>Description</Typography>
+            <Typography variant='h6' sx={{ fontSize: '1rem', mb: 1 }}>
+                Description
+            </Typography>
 
-            <TextField size='small' label='Title' fullWidth margin='dense' value={title} onChange={(e) => setTitle(e.target.value)} />
-            <TextField size='small' label='Drawer' fullWidth margin='dense' value={drawer} onChange={(e) => setDrawer(e.target.value)} />
-            <TextField size='small' label='Department' fullWidth margin='dense' value={department} onChange={(e) => setDepartment(e.target.value)} />
-            <TextField size='small' label='Screen Size' fullWidth margin='dense' value={screenSize} onChange={(e) => setScreenSize(e.target.value)} />
-            <TextField size='small' label='Date' type='date' fullWidth margin='dense' value={date} onChange={(e) => setDate(e.target.value)} />
+            <TextField size='small' label='Title' fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
+            <TextField size='small' label='Drawer' fullWidth value={drawer} onChange={(e) => setDrawer(e.target.value)} />
+            <TextField size='small' label='Department' fullWidth value={department} onChange={(e) => setDepartment(e.target.value)} />
+            <TextField size='small' label='Screen Size' fullWidth value={screenSize} onChange={(e) => setScreenSize(e.target.value)} />
+            <TextField size='small' label='Date' type='date' fullWidth value={date} onChange={(e) => setDate(e.target.value)} />
         </Box>
     )
 }
