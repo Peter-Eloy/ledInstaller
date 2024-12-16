@@ -18,12 +18,12 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
     const receptacleBoxes = receptableBoxData.map((box) => box['MFG. PART'])
 
     return (
-        <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: '8px', mb: 2, width: '100%' }}>
-            <Typography variant='h6' sx={{ mb: 2 }}>
+        <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: '8px', mb: 1, width: '100%' }}>
+            <Typography variant='h6' sx={{ mb: 1 }}>
                 Configuration Form
             </Typography>
 
-            <FormControl fullWidth sx={{ mb: 2 }} size='small'>
+            <FormControl fullWidth sx={{ mb: 1 }} size='small'>
                 <InputLabel>Screen Manufacturer</InputLabel>
                 <Select value={currentConfig.selectedScreen} onChange={(e) => handleChange('selectedScreen', e.target.value)}>
                     {screenManufacturers.map((manufacturer, index) => (
@@ -34,7 +34,7 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ mb: 2 }} size='small'>
+            <FormControl fullWidth sx={{ mb: 1 }} size='small'>
                 <InputLabel>Media Player</InputLabel>
                 <Select value={currentConfig.selectedMediaPlayer} onChange={(e) => handleChange('selectedMediaPlayer', e.target.value)}>
                     {mediaPlayers.map((part, index) => (
@@ -45,7 +45,7 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ mb: 2 }} size='small'>
+            <FormControl fullWidth sx={{ mb: 1 }} size='small'>
                 <InputLabel>Mount</InputLabel>
                 <Select value={currentConfig.selectedMount} onChange={(e) => handleChange('selectedMount', e.target.value)}>
                     {mounts.map((part, index) => (
@@ -56,7 +56,7 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 </Select>
             </FormControl>
 
-            <FormControl fullWidth sx={{ mb: 2 }} size='small'>
+            <FormControl fullWidth sx={{ mb: 1 }} size='small'>
                 <InputLabel>Receptacle Box</InputLabel>
                 <Select value={currentConfig.selectedBox} onChange={(e) => handleChange('selectedBox', e.target.value)}>
                     {receptacleBoxes.map((part, index) => (
@@ -99,7 +99,7 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 label='Floor Distance'
                 fullWidth
                 size='small'
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ mt: 2, mb: 1 }}
                 value={currentConfig.floorDistance}
                 onChange={(e) => handleChange('floorDistance', e.target.value)}
             />
