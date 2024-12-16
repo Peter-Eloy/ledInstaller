@@ -14,10 +14,18 @@ const Layout = () => {
         selectedMediaPlayer: '',
         selectedMount: '',
         selectedBox: '',
-        orientation: 'vertical',
+        orientation: 'horizontal',
         installation: 'niche',
         floorDistance: '',
         nicheDepthVar: '0',
+    })
+
+    const [descriptionData, setDescriptionData] = useState({
+        title: '',
+        drawer: '',
+        department: '',
+        screenSize: '',
+        date: new Date().toISOString().split('T')[0], // Set default date to today
     })
 
     const handleConfigChange = (newConfig) => {
@@ -39,7 +47,7 @@ const Layout = () => {
                 <Configuration currentConfig={currentConfig} onConfigChange={handleConfigChange} />
             </Box>
             <Box>
-                <Description />
+                <Description data={descriptionData} setData={setDescriptionData} />
             </Box>
             <Box>
                 <Button variant='contained' color='primary' fullWidth>
@@ -60,7 +68,7 @@ const Layout = () => {
                 </Toolbar>
             </AppBar>
 
-            <MainComponent currentConfig={currentConfig} />
+            <MainComponent currentConfig={currentConfig} descriptionData={descriptionData} />
 
             <Drawer
                 variant='permanent'

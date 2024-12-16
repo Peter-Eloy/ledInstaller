@@ -1,15 +1,18 @@
-import { useState } from 'react'
 import { Box, TextField, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 
-// ==============================|| DESCRIPTION ||============================== //
+// ==============================|| DESCRIPTION COMPONENT ||============================== //
 
-const Description = () => {
-    const [title, setTitle] = useState('')
-    const [drawer, setDrawer] = useState('')
-    const [department, setDepartment] = useState('')
-    const [screenSize, setScreenSize] = useState('')
-    const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'))
+const Description = ({ data = {}, setData }) => {
+    const { title = '', drawer = '', department = '', screenSize = '', date = dayjs().format('YYYY-MM-DD') } = data
+
+    // Handle changes for each field
+    const handleChange = (field) => (event) => {
+        if (setData) {
+            const value = event.target.value
+            setData({ ...data, [field]: value })
+        }
+    }
 
     return (
         <Box
@@ -27,11 +30,18 @@ const Description = () => {
                 Description
             </Typography>
 
-            <TextField size='small' label='Title' fullWidth value={title} onChange={(e) => setTitle(e.target.value)} />
-            <TextField size='small' label='Drawer' fullWidth value={drawer} onChange={(e) => setDrawer(e.target.value)} />
-            <TextField size='small' label='Department' fullWidth value={department} onChange={(e) => setDepartment(e.target.value)} />
-            <TextField size='small' label='Screen Size' fullWidth value={screenSize} onChange={(e) => setScreenSize(e.target.value)} />
-            <TextField size='small' label='Date' type='date' fullWidth value={date} onChange={(e) => setDate(e.target.value)} />
+            <TextField size='small' label='Title' fullWidth value={title} onChange={handleChange('title')} />
+            <TextField size='small' label='Drawer' fullWidth value={drawer} onChange={handleChange('drawer')} />
+            <TextField size='small' label='Department' fullWidth value={department} onChange={handleChange('department')} />
+            <TextField size='small' label='Screen Size' fullWidth value={screenSize} onChange={handleChange('screenSize')} />
+            <TextField
+                size='small'
+                label='Date'
+                type='date'
+                fullWidth
+                value={dayjs(date).format('YYYY-MM-DD')} // Ensure date is in the correct format
+                onChange={handleChange('date')}
+            />
         </Box>
     )
 }

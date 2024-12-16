@@ -11,7 +11,7 @@ import Map from './map'
 
 // ==============================|| MAIN COMPONENT ||============================== //
 
-const MainComponent = ({ currentConfig }) => {
+const MainComponent = ({ currentConfig, descriptionData }) => {
     const selectedScreenObj = screenMFRData.find((s) => s['Screen MFR'] === currentConfig.selectedScreen)
 
     let screenHeight = ''
@@ -59,7 +59,7 @@ const MainComponent = ({ currentConfig }) => {
 
                     <Box mt={15} />
                     <Notes />
-                    <InfoBox />
+                    <InfoBox descriptionData={descriptionData} />
                 </Grid>
             </Grid>
         </Box>

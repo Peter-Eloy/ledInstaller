@@ -2,9 +2,18 @@ import { Paper, Typography, Box, Table, TableBody, TableCell, TableContainer, Ta
 
 // ==============================|| INFOBOX COMPONENT ||============================== //
 
-const InfoBox = () => {
+const InfoBox = ({ descriptionData = {} }) => {
+    const {
+        title = 'Insert Title',
+        drawer = 'Insert Drawer',
+        department = 'Insert Department',
+        screenSize = 'Insert Screen Size',
+        date = 'Insert Date',
+    } = descriptionData
+
     return (
         <Paper sx={{ p: 2, width: '100%', mt: 2 }}>
+            {/* Header Section */}
             <Box
                 sx={{
                     display: 'flex',
@@ -25,11 +34,12 @@ const InfoBox = () => {
                 <Box>
                     <Typography>Description</Typography>
                     <Typography variant='body2' color='text.secondary'>
-                        Some screen data HERE
+                        {title || 'Here will be your title'}
                     </Typography>
                 </Box>
             </Box>
 
+            {/* Table Section */}
             <TableContainer>
                 <Table
                     sx={{
@@ -41,54 +51,35 @@ const InfoBox = () => {
                     }}
                 >
                     <TableBody>
+                        {/* First Row */}
                         <TableRow>
-                            <TableCell
-                                sx={{
-                                    bgcolor: '#FFF3E0',
-                                    width: '25%',
-                                }}
-                            >
+                            <TableCell sx={{ bgcolor: '#FFF3E0', width: '25%' }}>
                                 <Typography variant='subtitle2'>Drawn</Typography>
                             </TableCell>
-                            <TableCell
-                                rowSpan={2}
-                                sx={{
-                                    bgcolor: '#FFF3E0',
-                                    width: '25%',
-                                }}
-                            >
+                            <TableCell rowSpan={2} sx={{ bgcolor: '#FFF3E0', width: '25%' }}>
                                 <Typography variant='subtitle2'>Dimensions</Typography>
                                 <Typography variant='subtitle2'>in Inches</Typography>
                             </TableCell>
-                            <TableCell
-                                rowSpan={2}
-                                sx={{
-                                    width: '25%',
-                                }}
-                            >
+                            <TableCell rowSpan={2} sx={{ width: '25%' }}>
                                 <Typography variant='subtitle2'>Some</Typography>
                                 <Typography variant='subtitle2'>logo</Typography>
                             </TableCell>
-                            <TableCell
-                                sx={{
-                                    bgcolor: '#FFF3E0',
-                                    width: '25%',
-                                }}
-                            >
+                            <TableCell sx={{ bgcolor: '#FFF3E0', width: '25%' }}>
                                 <Typography variant='subtitle2'>Screen Size</Typography>
                             </TableCell>
                         </TableRow>
 
+                        {/* Second Row */}
                         <TableRow>
                             <TableCell>
-                                <Typography variant='subtitle2'>someone</Typography>
+                                <Typography variant='subtitle2'>{drawer || 'someone'}</Typography>
                             </TableCell>
-
                             <TableCell>
-                                <Typography variant='subtitle2'>LG55"</Typography>
+                                <Typography variant='subtitle2'>{screenSize || 'Screen size"'}</Typography>
                             </TableCell>
                         </TableRow>
 
+                        {/* Third Row */}
                         <TableRow>
                             <TableCell sx={{ bgcolor: '#FFF3E0' }}>
                                 <Typography variant='subtitle2'>Date</Typography>
@@ -104,9 +95,10 @@ const InfoBox = () => {
                             </TableCell>
                         </TableRow>
 
+                        {/* Fourth Row */}
                         <TableRow>
                             <TableCell>
-                                <Typography variant='subtitle2'>09/12/2023</Typography>
+                                <Typography variant='subtitle2'>{date || '09/12/2023'}</Typography>
                             </TableCell>
                             <TableCell>
                                 <Typography variant='subtitle2'>1 of 1</Typography>
@@ -115,7 +107,7 @@ const InfoBox = () => {
                                 <Typography variant='subtitle2'>00</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography variant='subtitle2'>Installations</Typography>
+                                <Typography variant='subtitle2'>{department || 'Installations'}</Typography>
                             </TableCell>
                         </TableRow>
                     </TableBody>
