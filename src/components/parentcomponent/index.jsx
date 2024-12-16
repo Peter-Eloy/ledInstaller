@@ -11,7 +11,7 @@ const ParentComponent = () => {
         orientation: 'vertical',
         installation: 'niche',
         floorDistance: '',
-        nicheDepth: '',
+        nicheDepthVar: '',
     })
 
     const handleConfigChange = (newConfig) => {

@@ -41,9 +41,7 @@ const MainComponent = ({ currentConfig }) => {
                 <Grid item xs={5}>
                     <Grid container spacing={2}>
                         <Grid item xs={6} mt={1}>
-                            <NicheDimensions
-                            // If NicheDimensions needs props, pass them here
-                            />
+                            <NicheDimensions currentConfig={currentConfig} selectedScreenObj={selectedScreenObj} orientation={currentConfig.orientation} />
                         </Grid>
                         <Grid item xs={6} mt={1}>
                             <ScreenDimensions

@@ -19,7 +19,7 @@ const Layout = () => {
         orientation: 'vertical',
         installation: 'niche',
         floorDistance: '',
-        nicheDepth: '',
+        nicheDepthVar: '0',
     })
 
     const handleConfigChange = (newConfig) => {

@@ -105,11 +105,11 @@ const Configuration = ({ currentConfig, onConfigChange }) => {
                 onChange={(e) => handleChange('floorDistance', e.target.value)}
             />
             <TextField
-                label='Niche Depth'
+                label='Niche Depth Var'
                 fullWidth
                 size='small'
-                value={currentConfig.nicheDepth}
-                onChange={(e) => handleChange('nicheDepth', e.target.value)}
+                value={currentConfig.nicheDepthVar}
+                onChange={(e) => handleChange('nicheDepthVar', e.target.value)}
             />
         </Box>
     )
