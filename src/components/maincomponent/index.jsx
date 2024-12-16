@@ -26,8 +26,9 @@ const MainComponent = ({ currentConfig }) => {
             sx={{
                 position: 'fixed',
                 top: '72px',
-                left: 5,
-                right: '18vw',
+                left: 15,
+                right: '17vw',
+                paddingRight: 1,
                 bottom: 5,
                 overflow: 'auto',
                 display: 'flex',
