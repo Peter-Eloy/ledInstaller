@@ -4,6 +4,8 @@ import mountsData from '../../data/mounts.json'
 import mediaplayerMFRData from '../../data/mediaplayerMFR.json'
 import receptableBoxData from '../../data/receptableBox.json'
 
+// ==============================|| CONFIGURATION COMPONENT ||============================== //
+
 const Configuration = ({ currentConfig, onConfigChange }) => {
     const handleChange = (key, value) => {
         onConfigChange({ ...currentConfig, [key]: value })

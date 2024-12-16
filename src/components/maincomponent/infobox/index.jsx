@@ -5,7 +5,6 @@ import { Paper, Typography, Box, Table, TableBody, TableCell, TableContainer, Ta
 const InfoBox = () => {
     return (
         <Paper sx={{ p: 2, width: '100%', mt: 2 }}>
-            {/* Header Section */}
             <Box
                 sx={{
                     display: 'flex',
@@ -31,7 +30,6 @@ const InfoBox = () => {
                 </Box>
             </Box>
 
-            {/* Table */}
             <TableContainer>
                 <Table
                     sx={{
@@ -43,7 +41,6 @@ const InfoBox = () => {
                     }}
                 >
                     <TableBody>
-                        {/* First Row - Headers and merged cells */}
                         <TableRow>
                             <TableCell
                                 sx={{
@@ -82,18 +79,16 @@ const InfoBox = () => {
                             </TableCell>
                         </TableRow>
 
-                        {/* Second Row - Values */}
                         <TableRow>
                             <TableCell>
                                 <Typography variant='subtitle2'>someone</Typography>
                             </TableCell>
-                            {/* No cells needed here due to rowSpan above */}
+
                             <TableCell>
                                 <Typography variant='subtitle2'>LG55"</Typography>
                             </TableCell>
                         </TableRow>
 
-                        {/* Third Row - Headers */}
                         <TableRow>
                             <TableCell sx={{ bgcolor: '#FFF3E0' }}>
                                 <Typography variant='subtitle2'>Date</Typography>
@@ -109,7 +104,6 @@ const InfoBox = () => {
                             </TableCell>
                         </TableRow>
 
-                        {/* Fourth Row - Values */}
                         <TableRow>
                             <TableCell>
                                 <Typography variant='subtitle2'>09/12/2023</Typography>

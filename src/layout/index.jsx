@@ -4,6 +4,8 @@ import Configuration from '../components/configuration'
 import Description from '../components/description'
 import MainComponent from '../components/maincomponent'
 
+// ==============================|| LAYOUT COMPONENT ||============================== //
+
 const Layout = () => {
     const drawerWidth = `calc(17vw)`
 
