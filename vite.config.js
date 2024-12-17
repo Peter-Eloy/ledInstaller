@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [react()],
   json: {
     stringify: true
-  }
+  },
+  base: '/ledInstaller/',
 })
