@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { AppBar, Box, CssBaseline, Drawer, Toolbar, Typography, Button } from '@mui/material'
+import { jsPDF } from 'jspdf'
+import html2canvas from 'html2canvas'
 import Configuration from '../components/configuration'
 import Description from '../components/description'
 import MainComponent from '../components/maincomponent'
@@ -8,6 +10,7 @@ import MainComponent from '../components/maincomponent'
 
 const Layout = () => {
     const drawerWidth = `calc(17vw)`
+    const [isGenerating, setIsGenerating] = useState(false)
 
     const [currentConfig, setCurrentConfig] = useState({
         selectedScreen: '',
@@ -25,11 +28,56 @@ const Layout = () => {
         drawer: '',
         department: '',
         screenSize: '',
-        date: new Date().toISOString().split('T')[0], // Set default date to today
+        date: new Date().toISOString().split('T')[0],
     })
 
     const handleConfigChange = (newConfig) => {
         setCurrentConfig(newConfig)
+    }
+
+    const handleDownloadPDF = async () => {
+        if (isGenerating) return
+        setIsGenerating(true)
+
+        try {
+            const mainElement = document.querySelector('.main-content')
+            if (!mainElement) {
+                throw new Error('Could not find main component')
+            }
+            const rect = mainElement.getBoundingClientRect()
+            const canvas = await html2canvas(mainElement, {
+                scale: 2,
+                logging: true,
+                backgroundColor: '#ffffff',
+                x: window.pageXOffset,
+                y: window.pageYOffset,
+                scrollX: -window.pageXOffset,
+                scrollY: -window.pageYOffset,
+                width: rect.width,
+                height: rect.height,
+                windowWidth: document.documentElement.offsetWidth,
+                windowHeight: document.documentElement.offsetHeight,
+            })
+
+            const pdf = new jsPDF({
+                orientation: 'landscape',
+                unit: 'mm',
+                format: 'a4',
+                compress: false,
+            })
+
+            const imgData = canvas.toDataURL('image/png', 1.0)
+            const pdfWidth = pdf.internal.pageSize.getWidth()
+            const pdfHeight = pdf.internal.pageSize.getHeight()
+
+            pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20)
+            pdf.save(`LED_Screen_Installation_${descriptionData.title || 'Plan'}.pdf`)
+        } catch (error) {
+            console.error('Detailed error:', error)
+            alert('There was an error generating the PDF. Please try again.')
+        } finally {
+            setIsGenerating(false)
+        }
     }
 
     const drawer = (
@@ -50,8 +98,8 @@ const Layout = () => {
                 <Description data={descriptionData} setData={setDescriptionData} />
             </Box>
             <Box>
-                <Button variant='contained' color='primary' fullWidth>
-                    Download PDF
+                <Button variant='contained' color='primary' fullWidth onClick={handleDownloadPDF} disabled={isGenerating}>
+                    {isGenerating ? 'Generating PDF...' : 'Download PDF'}
                 </Button>
             </Box>
         </Box>
@@ -68,7 +116,26 @@ const Layout = () => {
                 </Toolbar>
             </AppBar>
 
-            <MainComponent currentConfig={currentConfig} descriptionData={descriptionData} />
+            <Box
+                className='main-content'
+                sx={{
+                    position: 'fixed',
+                    top: '72px',
+                    left: 15,
+                    right: '17vw',
+                    paddingRight: 1,
+                    bottom: 5,
+                    overflow: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    border: '1px solid #ccc',
+                    borderRadius: '8px',
+                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: '#ffffff',
+                }}
+            >
+                <MainComponent currentConfig={currentConfig} descriptionData={descriptionData} />
+            </Box>
 
             <Drawer
                 variant='permanent'
