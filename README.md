@@ -2,6 +2,9 @@
 
 A React-based web application for LED panel layout and installation planning, built with Vite and Material-UI.
 
+## Documentation
+[View complete documentation](./docs/DOCS.md)
+
 ## Tech Stack
 - React 18
 - Vite
